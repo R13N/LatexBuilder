@@ -52,9 +52,7 @@ class Builder(object):
         self.name = name
         self.repo_url = repo_url
         self.commit = commit
-        if repo_url.startswith('https://'):
-            self.clone_url = repo_url + '.git'
-        elif repo_url.startswith('git://') or repo_url.endswith('.git'):
+        if repo_url.startswith('git@') and repo_url.endswith('.git'):
             self.clone_url = repo_url
         else:
             raise ValueError('Invalid repo_url')
@@ -119,6 +117,8 @@ class Builder(object):
             with chdir(self.clone_dir):
                 if subprocess.call(['make']) != 0:
                     raise RuntimeError('make failed')
+        else:
+            raise RuntimeError('No makefile found')
 
     def _copy(self):
         """Clean PDF directory, copy over new PDF files."""
