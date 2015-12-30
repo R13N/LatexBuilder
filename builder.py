@@ -118,7 +118,7 @@ class Builder(object):
                 if subprocess.call(['make']) != 0:
                     raise RuntimeError('make failed')
         else:
-            raise RuntimeError('No makefile found')
+            print "Makefile not found, nothing was built."
 
     def _copy(self):
         """Clean PDF directory, copy over new PDF files."""

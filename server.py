@@ -46,17 +46,22 @@ def home():
 def store():
     """Webhook for notifications about a new commit on Github."""
     validate_access_code()
-    try:
-        data = request.json
-    except ValueError:
-        abort(400, 'Bad request: Could not decode request body.')
-    name = data['repository']['name']
-    repo_url = data['repository']['ssh_url']
-    commit = data['after']
-    b = builder.Builder(name, repo_url, commit)
-    p = multiprocessing.Process(target=b.run)
-    p.start()
-    raise HTTPResponse('Started build process in background.\n', 202)
+    data = request.json
+
+    if 'repository' in data:
+        name = data['repository']['name']
+        repo_url = data['repository']['ssh_url']
+        commit = data['after']
+        if data['ref'] is "refs/heads/master":
+            b = builder.Builder(name, repo_url, commit)
+            p = multiprocessing.Process(target=b.run)
+            p.start()
+            raise HTTPResponse('Started build process in background.\n', 202)
+        else:
+            raise HTTPResponse('Build process not started. I only build the master branch.')
+    else:
+        raise HTTPResponse('POST request did not contain a repo to build.\n', 400)
+
 
 
 if __name__ == '__main__':
