@@ -52,7 +52,7 @@ def store():
         name = data['repository']['name']
         repo_url = data['repository']['ssh_url']
         commit = data['after']
-        if data['ref'] is "refs/heads/master":
+        if 'master' in data['ref']:
             b = builder.Builder(name, repo_url, commit)
             p = multiprocessing.Process(target=b.run)
             p.start()
