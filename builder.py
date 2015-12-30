@@ -126,13 +126,12 @@ class Builder(object):
         for f in os.listdir(self.repo_pdf_dir):
             os.remove(os.path.join(self.repo_pdf_dir, f))
 
-        for files in os.listdir(self.clone_dir):
-            pdf_files = [f for f in files if f.endswith('.pdf')]
-            for pdf in pdf_files:
-                src = os.path.join(self.clone_dir, pdf)
-                dst = os.path.join(self.repo_pdf_dir, pdf)
-                shutil.copyfile(src, dst)
-                print 'Copied file %s to pdf directory.' % pdf
+        pdf_files = [f for f in os.listdir(self.clone_dir) if f.endswith('.pdf')]
+        for pdf in pdf_files:
+            src = os.path.join(self.clone_dir, pdf)
+            dst = os.path.join(self.repo_pdf_dir, pdf)
+            shutil.copyfile(src, dst)
+            print 'Copied file %s to pdf directory.' % pdf
 
     def _cleanup(self):
         """Do cleanups, like removing lockfiles and fixing permissions."""
@@ -142,6 +141,7 @@ class Builder(object):
             if e.errno == errno.ENOENT:
                 raise RuntimeError('Lockfile not found. Someone must have removed it manually.')
             raise
+        """
         for dirpath, dirs, files in os.walk(self.pdf_dir, topdown=True):
             for dir in dirs:
                 path = os.path.join(dirpath, dir)
@@ -149,6 +149,7 @@ class Builder(object):
             for file in files:
                 path = os.path.join(dirpath, file)
                 os.chmod(path, PERM_666)
+                """
 
     def run(self):
         """Prepare and build specified commit."""
