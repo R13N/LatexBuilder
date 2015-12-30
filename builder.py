@@ -126,15 +126,11 @@ class Builder(object):
         for f in os.listdir(self.repo_pdf_dir):
             os.remove(os.path.join(self.repo_pdf_dir, f))
 
-        for dirpath, dirs, files in os.walk(self.clone_dir, topdown=True):
-            if '.git' in dirs:
-                dirs.remove('.git')  # Don't recurse into .git directory
+        for files in os.listdir(self.clone_dir):
             pdf_files = [f for f in files if f.endswith('.pdf')]
             for pdf in pdf_files:
-                src = os.path.join(dirpath, pdf)
+                src = os.path.join(self.clone_dir, pdf)
                 dst = os.path.join(self.repo_pdf_dir, pdf)
-                if os.path.isfile(dst):
-                    dst = dst[:-3] + '2.pdf'
                 shutil.copyfile(src, dst)
                 print 'Copied file %s to pdf directory.' % pdf
 
