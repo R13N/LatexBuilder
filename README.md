@@ -24,16 +24,18 @@ issues that need to be fixed. Keep this in mind while using this software.
 2. Clone this repository (or your own fork).
 
 3. Create a Python virtual enviroment with Python 2 as interpreter.
-```
-virtualenv -p /usr/bin/python2 VIRTUAL
-```
+    ```
+    virtualenv -p /usr/bin/python2 VIRTUAL
+    ```
 4. Activate the virtual enviroment:
-```
-source VIRTUAL/bin/activate
-pip install -r requirements.txt
-```
+    ```
+    source VIRTUAL/bin/activate
+    
+    pip install -r requirements.txt
+    ```
 5. Run the server:
-`VIRTUAL/bin/python server.py ` or `systemctl start latexbuilder.service`
+    
+    `VIRTUAL/bin/python server.py ` or `systemctl start latexbuilder.service`
 
 
 The webhook URL is now running at http://localhost:9393/webhook (or http://0.0.0.0:9494/webhook if you started the systemd file).
