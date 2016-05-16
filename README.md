@@ -35,9 +35,15 @@ issues that need to be fixed. Keep this in mind while using this software.
     ```
 5. Run the server
     ```
+    VIRTUAL/bin/python server.py 
+    ```
+    or
+    ```
+    systemctl start latexbuilder.service
+    ```
 
 
-The webhook URL is now running at http://localhost:9393/webhook
+The webhook URL is now running at http://localhost:9393/webhook (or http://0.0.0.0:9494/webhook if you stated the systemd file).
 
 Other commandline options::
 
