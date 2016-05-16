@@ -126,12 +126,17 @@ class Builder(object):
         for f in os.listdir(self.repo_pdf_dir):
             os.remove(os.path.join(self.repo_pdf_dir, f))
 
-        pdf_files = [f for f in os.listdir(self.clone_dir) if f.endswith('.pdf')]
+        pdf_files = []
+	for root, dirs, files in os.walk(self.clone_dir):
+		for file in files:
+			if file.endswith('.pdf'):
+				pdf_files.append((root, file))
+
         for pdf in pdf_files:
-            src = os.path.join(self.clone_dir, pdf)
-            dst = os.path.join(self.repo_pdf_dir, pdf)
+            src = os.path.join(pdf[0], pdf[1])
+            dst = os.path.join(self.repo_pdf_dir, pdf[1])
             shutil.copyfile(src, dst)
-            print 'Copied file %s to pdf directory.' % pdf
+            print 'Copied file %s to pdf directory.' % pdf[1]
 
     def _cleanup(self):
         """Do cleanups, like removing lockfiles and fixing permissions."""
